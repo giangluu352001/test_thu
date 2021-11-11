@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vertical/components/nav_bot.dart';
+import 'package:app/components/nav_bot.dart';
 
 void main() {
   runApp(BottomNav());
