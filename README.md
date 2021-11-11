@@ -1,4 +1,4 @@
-# vertical
+# app
 
 A new Flutter project.
 
