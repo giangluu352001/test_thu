@@ -1,9 +1,9 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vertical/screens/button.dart';
-import 'package:vertical/screens/email_component.dart';
-import 'package:vertical/screens/password_component.dart';
+import 'package:vertical/screens/register.dart';
 
 
 class Login extends StatefulWidget {
@@ -12,13 +12,24 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  String? username;
+  String? password;
+  bool _obscureText = true;
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack (
         children: <Widget> [
-        SingleChildScrollView( 
-          child: ConstrainedBox(
+          SingleChildScrollView( 
+            child: ConstrainedBox(
             constraints: BoxConstraints(
               minHeight: MediaQuery.of(context).size.height,
               ),
@@ -35,44 +46,95 @@ class _LoginState extends State<Login> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: 40),
+          SizedBox(height: size.height*0.1),
           Padding(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(size.width* 0.03),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text("Login", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.white),),
-                  SizedBox(height: 10,),
+                  Text("Login", style: TextStyle(fontWeight: FontWeight.bold, fontSize: size.width*0.08, color: Colors.white),),
+                  SizedBox(height: size.height*0.015,),
                   Text("to use all feature of this app", style: TextStyle(color: Colors.white),)
                   ],
               ),
             ),
             
                 Container(
-                    margin: EdgeInsets.only(left: 40, right: 40, top: 40, bottom: 10),
+                    margin: EdgeInsets.only(left: size.width* 0.1, right: size.width* 0.1, top: size.width* 0.1, bottom: size.width* 0.025),
                     decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
                     border: Border.all(width: 3.0, color: const Color(0xFFb5b4b0))
                   ),
                   child: Column(
-                    children: <Widget>[
-                      SizedBox(height: 50),
-                      EmailInputField(
-                        hintText: "Enter your email", 
-                        onChanged: (value) {},
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(size.width* 0.075),
+                        child: Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [ 
+                           TextFormField(
+                                controller: _emailController,
+                                textAlignVertical: TextAlignVertical.center,
+                                cursorColor: Color(0xFF2E3D5F),
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: Color(0xFFEDEFF1),
+                                    hintText: 'Email',
+                                    border: UnderlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    prefixIcon: Icon(Icons.mail, color: Color(0xFF2E3D5F),),
+                                    suffixIcon: _emailController.text.isEmpty
+                                  ? Container(width: 0)
+                                  : IconButton(
+                                      icon: Icon(Icons.close, color: Color(0xFF2E3D5F),),
+                                      onPressed: () => _emailController.clear(),
+                                    ),
+                            ),
+                            keyboardType: TextInputType.emailAddress,
+                            autofillHints: [AutofillHints.email],
+                            validator: (email) => email != null && !EmailValidator.validate(email)
+                                ? 'Please enter a valid email!' : null,
+                        ),
+                        SizedBox(height: size.height*0.03),
+                        TextFormField(
+                          obscureText: _obscureText,
+                          textAlignVertical: TextAlignVertical.center,
+                          cursorColor: Color(0xFF2E3D5F),
+                            decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Color(0xFFEDEFF1),
+                          hintText: 'Password',
+                          border: UnderlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(20),
+                        ),
+                        prefixIcon: Icon(Icons.lock, color: Color(0xFF2E3D5F),),
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.visibility, 
+                          color: Color(0xFF2E3D5F),
+                          ),
+                          onPressed: _toggle,
+                        )
                       ),
-                      PasswordField(
-                        onChanged: (value) {}
-                      ),
-                      SizedBox(height: 10),
-                      DefaultButton(text: "Login", press: () {}),
-                      SizedBox(height: 10),
+                      keyboardType: TextInputType.visiblePassword,
+                  ),
+                  SizedBox(height: size.height*0.03),
+                      DefaultButton(text: "Login", press: () {
+                      final form = _formKey.currentState!;
+                      if(form.validate()) {
+                          
+                        }
+                    }, widthsize: 0.5,),
+                      SizedBox(height: size.height* 0.015),
                       Text('or', style: TextStyle(color: Color(0xFF2E3D5F), fontWeight: FontWeight.bold),),
                       Container(
-                        padding: const EdgeInsets.all(10),
-                        width: 200,
-                        margin: EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 10),
+                        width: size.width*0.5,
+                        height: size.height* 0.065,
+                        margin: EdgeInsets.only(left: size.height*0.01, right: size.height*0.01, bottom: size.height*0.01, top: size.height*0.01),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(width: 2.0, color: const Color(0xFF2E3D5F))
@@ -87,20 +149,29 @@ class _LoginState extends State<Login> {
                             color: Color(0xFF2E3D5F),
                             fontWeight: FontWeight.bold)),
                           ]
+                          )
                         )
-                      )
+                          ],
+                        ),
+                        ),
+                    ),
                     ],
                   ),
                 ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
                 Text(
                   "Don’t have an Account ? ",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) { return Register();})
+                    );
+                  },
                   child: Text(
                     "REGISTER HERE",
                     style: TextStyle(
@@ -110,7 +181,7 @@ class _LoginState extends State<Login> {
                   ),
                 )
               ],
-          ),
+              ),
           ],
         )
        

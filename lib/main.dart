@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-//import 'package:vertical/screens/login.dart';
 import 'package:vertical/screens/register.dart';
+import 'package:vertical/screens/splash.dart';
+//import 'package:vertical/screens/onboarding.dart';
+//import 'package:vertical/screens/login.dart';
+//import 'package:vertical/screens/register.dart';
+//import 'package:vertical/screens/splash.dart';
 //import 'package:vertical/screens/onboarding.dart';
 
 void main() async { 

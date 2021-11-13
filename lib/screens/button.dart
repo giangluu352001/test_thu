@@ -6,21 +6,23 @@ class DefaultButton extends StatelessWidget {
     Key? key,
     this.text,
     this.press,
+    this.widthsize,
   }) : super(key: key);
   final String? text;
   final Function? press;
-
+  final num? widthsize;
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return SizedBox(
-      width: 200,
-      height: 45,
+      width: size.width*widthsize!,
+      height: size.height* 0.065,
       child: TextButton(
         style: TextButton.styleFrom(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           primary: Colors.white,
-          backgroundColor: Color(0xFF2E3D5F)//Color.fromRGBO(46, 61, 95, 1),
+          backgroundColor: Color(0xFF2E3D5F)
         ),
         onPressed: press as void Function()?,
         child: Text(

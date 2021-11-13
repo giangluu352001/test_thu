@@ -39,8 +39,7 @@ class Onboarding extends State<Onboard>{
   @override
   Widget build(BuildContext context) {
    return Scaffold(
-     body: SafeArea(
-     child: SizedBox(
+     body: SizedBox(
        width: double.infinity,
        child: Column(
          children: <Widget>[
@@ -69,8 +68,7 @@ class Onboarding extends State<Onboard>{
         ]
        )
      )
-     )
-   );
+     );
   }
 
   AnimatedContainer surf({int? index}) {
@@ -110,17 +108,18 @@ class Onboarding extends State<Onboard>{
              style: TextStyle(
                color: Color(0xFF868FA0),
              )),),
-             Spacer(flex: 2),
+             Spacer(flex: 1),
              DefaultButton(text: textbutton!,
              press: () {
                if(currPage == 1) {
-                 print("HELLO YOU!!!");
+                 print("GO TO YOUR HOME!!!");
                }
                else {
                  _controller!.nextPage(duration: const Duration(milliseconds: 250),
-        curve: Curves.easeInOutSine,);
+                  curve: Curves.easeInOutSine,);
                }
-             }),     
+             }, widthsize: 0.7,),
+            
       ],);
   }
   
